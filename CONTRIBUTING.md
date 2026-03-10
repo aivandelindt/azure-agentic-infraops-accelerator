@@ -1,55 +1,49 @@
-# Contributing
+<a id="top"></a>
 
-Thank you for your interest in contributing! This repository was created from the
-[azure-agentic-infraops](https://github.com/jonathan-vella/azure-agentic-infraops) template.
-It is **not** a direct fork of the upstream — it is your project, powered by the framework.
+# Contributing to Agentic InfraOps
 
-This file covers contribution guidelines for this repository. The canonical workflow details
-(branch protection, PR flow, automation, versioning) are in:
+Thank you for your interest in contributing! Agentic InfraOps revolutionizes how IT Pros build
+Azure environments through coordinated AI agents.
+
+This file is the quick contributor entrypoint.
+The canonical, detailed contributor workflow (branch protection, PR flow, automation, versioning) is:
 
 - [Development Workflow Guide](docs/workflow.md)
 
----
+## 🎯 What We're Looking For
 
-## Where to Contribute
+### High-Priority Contributions
 
-### Agent/skill/instruction improvements
+1. **Agent Improvements**
+   - Enhancements to existing agents (`.github/agents/*.agent.md`)
+   - Better prompts and handoff patterns
+   - Additional validation checks
 
-The agents, skills, and instructions come from upstream. Improvements to these belong in the
-[upstream repo](https://github.com/jonathan-vella/azure-agentic-infraops) — they sync here
-automatically via the weekly sync PR. Do not make changes to `.github/agents/`,
-`.github/skills/`, or `.github/instructions/` in this repository for features intended to
-benefit all users of the framework.
+2. **Documentation**
+   - Workflow improvements (`docs/workflow.md`)
+   - Better examples and use cases
+   - Troubleshooting guides
 
-### Project-specific changes
+3. **Best Practices**
+   - Bicep and Terraform patterns and templates
+   - Azure Verified Module usage examples (Bicep and AVM-TF)
+   - Security and compliance guidance
+<div align="right"><a href="#top"><b>⬆️ Back to Top</b></a></div>
 
-Infrastructure templates, project CI workflows, project docs, and other consumer-owned files
-belong here:
-
-| Path | Type of change |
-|---|---|
-| `infra/bicep/` | Azure Bicep templates for this project |
-| `agent-output/` | Agent-generated artifacts |
-| `docs/` | Project-specific documentation |
-| `.github/workflows/` | CI/CD workflows for this project |
-| `CHANGELOG.md` | Release history |
-| `package.json` | Package identity and scripts |
-
----
-
-## Contribution Guidelines
+## 📋 Contribution Guidelines
 
 ### Before You Start
 
-1. **Check existing issues** — someone might already be working on it
-2. **Open an issue** — discuss your idea before investing time
+1. **Check existing issues** - Someone might already be working on it
+2. **Open an issue** - Discuss your idea before investing time
 
-### Branching and PRs
+### Branching and PRs (Canonical)
 
-This repo uses a protected `main` branch. Contributions land via pull requests with required
-checks and review.
+This repo uses a protected `main` branch.
+Contributions land via pull requests with required checks and review.
 
 - Workflow details: [Development Workflow Guide](docs/workflow.md)
+- Agent workflow details: [Agent Workflow Reference](docs/workflow.md)
 
 ### Code Standards
 
@@ -62,6 +56,16 @@ checks and review.
 // Follow Azure naming best practices
 ```
 
+**Terraform:**
+
+```hcl
+# Use consistent naming conventions (CAF)
+# Variables in variables.tf with descriptions and validation
+# Outputs in outputs.tf
+# AVM-TF modules preferred over raw resources
+# Provider pinned to ~> 4.0 (AzureRM)
+```
+
 ### Documentation Standards
 
 - Use clear, concise language
@@ -71,8 +75,9 @@ checks and review.
 
 ### Markdown Linting
 
-This repository uses [markdownlint](https://github.com/DavidAnson/markdownlint) for consistent
-formatting.
+This repository uses [markdownlint](https://github.com/DavidAnson/markdownlint) for consistent formatting.
+
+**Running the linter:**
 
 ```bash
 # Check for issues
@@ -84,47 +89,56 @@ npm run lint:links
 # Auto-fix issues
 npm run lint:md:fix
 ```
+<div align="right"><a href="#top"><b>⬆️ Back to Top</b></a></div>
 
----
+## 🚀 Contribution Process
 
-## Contribution Process
+### 1. Fork & Clone
 
-### 1. Clone and Branch
+> **Note:** For **using** Agentic InfraOps, create your own repo from the
+> [Accelerator template](https://github.com/jonathan-vella/azure-agentic-infraops-accelerator)
+> instead. The instructions below are for contributing back to this upstream project.
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
-cd YOUR-REPO-NAME
-git checkout -b feature/your-feature-name
+git clone https://github.com/YOUR-USERNAME/azure-agentic-infraops.git
+cd azure-agentic-infraops
+git remote add upstream https://github.com/jonathan-vella/azure-agentic-infraops.git
 ```
 
-### 2. Make Your Changes
+### 2. Create a Branch
+
+```bash
+git checkout -b feature/your-feature-name
+# or
+git checkout -b fix/issue-description
+```
+
+### 3. Make Your Changes
 
 - Follow the guidelines above
 - Test any Bicep changes with `bicep build` and `bicep lint`
+- Test any Terraform changes with `terraform fmt -check`, `terraform validate`, and `npm run validate:terraform`
 - Validate markdown and links with `npm run lint:md` and `npm run lint:links`
 
-### 3. Commit and Push
+For the full local-to-PR flow, see:
+
+- [Development Workflow Guide](docs/workflow.md)
+
+### 4. Commit & Push
 
 ```bash
 git add .
-git commit -m "feat: describe your change"
+git commit -m "feat: add diagram generator improvements"
 git push origin feature/your-feature-name
 ```
 
-Commit message format is enforced by hooks and CI — see below.
+Note: commit message format is enforced by hooks and CI.
+<div align="right"><a href="#top"><b>⬆️ Back to Top</b></a></div>
 
-### 4. Create Pull Request
+## 📝 Commit Message Format (Required)
 
-1. Go to your repository on GitHub
-2. Click **New Pull Request**
-3. Fill out the PR template
-4. Link related issues
-
----
-
-## Commit Message Format (Required)
-
-This repository uses [Conventional Commits](https://www.conventionalcommits.org/).
+This repository uses [Conventional Commits](https://www.conventionalcommits.org/) with automated enforcement.
+Commit messages are validated by commitlint before each commit.
 
 ### Format
 
@@ -138,34 +152,67 @@ This repository uses [Conventional Commits](https://www.conventionalcommits.org/
 
 ### Types
 
-| Type | Description | Version Bump |
-|---|---|---|
-| `feat` | New feature | Minor (1.x.0) |
-| `fix` | Bug fix | Patch (1.0.x) |
-| `docs` | Documentation only | None |
-| `style` | Code style | None |
-| `refactor` | Refactoring | None |
-| `perf` | Performance | None |
-| `test` | Tests | None |
-| `build` | Build system | None |
-| `ci` | CI/CD | None |
-| `chore` | Maintenance | None |
-| `revert` | Revert | None |
+| Type       | Description                             | Version Bump  |
+| ---------- | --------------------------------------- | ------------- |
+| `feat`     | New feature                             | Minor (1.x.0) |
+| `fix`      | Bug fix                                 | Patch (1.0.x) |
+| `docs`     | Documentation only changes              | None          |
+| `style`    | Code style (formatting, semicolons)     | None          |
+| `refactor` | Code refactoring (no functional change) | None          |
+| `perf`     | Performance improvements                | None          |
+| `test`     | Adding or updating tests                | None          |
+| `build`    | Build system or dependencies            | None          |
+| `ci`       | CI/CD configuration                     | None          |
+| `chore`    | Maintenance tasks                       | None          |
+| `revert`   | Reverting a previous commit             | None          |
 
-Breaking changes: add `!` after the type or include `BREAKING CHANGE:` in the footer.
+### Breaking Changes
+
+For breaking changes, add `!` after the type or include `BREAKING CHANGE:` in the footer:
+
+```bash
+# Breaking change indicator
+git commit -m "feat!: redesign agent workflow architecture"
+
+# Or with footer
+git commit -m "feat: new output structure
+
+BREAKING CHANGE: agent outputs now go to agent-output/ folder"
+```
+
+Breaking changes trigger a **major version bump** (x.0.0).
 
 ### Examples
 
 ```bash
-git commit -m "feat(bicep): add Key Vault private endpoint module"
-git commit -m "fix: correct resource group naming in deploy script"
-git commit -m "docs: update quickstart with new template instructions"
+# Feature (minor version bump)
+git commit -m "feat: add terraform validation agent"
+git commit -m "feat(bicep): add diagnostic settings module"
+
+# Bug fix (patch version bump)
+git commit -m "fix: correct resource naming in Key Vault module"
+git commit -m "fix(docs): update broken quickstart links"
+
+# No version bump
+git commit -m "docs: update workflow documentation"
 git commit -m "chore: update dev container configuration"
+git commit -m "refactor: simplify agent handoff logic"
 ```
 
----
+### Validation
 
-## Pull Request Checklist
+Commits are automatically validated by the commit-msg hook. If your commit message
+doesn't follow the format, you'll see a helpful error with examples.
+
+### 5. Create Pull Request
+
+1. Go to your fork on GitHub
+2. Click "New Pull Request"
+3. Fill out the PR template
+4. Link related issues
+<div align="right"><a href="#top"><b>⬆️ Back to Top</b></a></div>
+
+## 📝 Pull Request Checklist
 
 Before submitting:
 
@@ -173,20 +220,33 @@ Before submitting:
 - [ ] Documentation updated if needed
 - [ ] Markdown files pass linting (`npm run lint:md`)
 - [ ] Docs links pass checks (`npm run lint:links`)
+- [ ] Bicep templates validate (`bicep build` + `bicep lint`) if applicable
+- [ ] Terraform configs validate (`terraform validate` + `terraform fmt -check`) if applicable
 - [ ] No hardcoded secrets or subscription IDs
 - [ ] Links work correctly
+<div align="right"><a href="#top"><b>⬆️ Back to Top</b></a></div>
 
----
+## 🤝 Community Standards
 
-## Community Standards
+### Code of Conduct
 
 - Be respectful and inclusive
 - Welcome newcomers
 - Focus on constructive feedback
 - No harassment or discrimination
 
----
+### Getting Help
 
-## License
+- **Questions**: GitHub Discussions
+- **Issues**: GitHub Issues
+<div align="right"><a href="#top"><b>⬆️ Back to Top</b></a></div>
+
+## 📄 License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="section divider" width="100%">
+
+**Thank you for helping improve the Azure infrastructure workflow!** 🚀
+
+<div align="right"><a href="#top"><b>⬆️ Back to Top</b></a></div>
